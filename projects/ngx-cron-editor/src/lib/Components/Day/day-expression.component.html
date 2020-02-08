@@ -1,0 +1,53 @@
+<div class="parentContainer" [formGroup]="expressionFormGroup">
+
+  {{expressionFormGroup.value | json}}
+  <mat-radio-group (change)="onSelectionChange($event)">
+    <div fxLayout="column">
+      <mat-radio-button #radioButtonEveryDay value="1" [checked]="true">
+        Every Day
+      </mat-radio-button>
+
+      <mat-radio-button #radioButtonWeekInterval value="2" [formGroup]="expressionFormGroup.controls.weekInterval">
+        Every
+        <mat-slider thumbLabel formControlName="day"
+                    [min]="weekIntervalDayMinValue"
+                    [max]="weekIntervalDayMaxValue">
+        </mat-slider>
+        day(s) starting on
+        <mat-form-field>
+          <mat-select formControlName="week">
+            <mat-option *ngFor="let week of weeks" [value]="week.value">{{week.viewValue}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-radio-button>
+
+      <mat-radio-button #radioButtonlastDayOfTheMonth value="3">
+        <mat-form-field>
+          <input  formControlName="lastDayOfTheMonth" type="text" matInput value="www" disabled/>
+        </mat-form-field>
+        <mat-label >On last day of the month</mat-label>
+      </mat-radio-button>
+
+      <mat-radio-button #radioButtonlastWeekDayOfTheMonth value="4">
+        On the last
+        <mat-form-field>
+          <mat-select formControlName="lastWeekDayOfTheMonth">
+            <mat-option *ngFor="let week of weeks" [value]="week.value">{{week.viewValue}}</mat-option>
+          </mat-select> of the month
+        </mat-form-field>
+      </mat-radio-button>
+
+      <mat-radio-button #radioButtonlastWeekDayOfTheMonth value="4">
+        On the last
+        <mat-form-field>
+          <mat-select formControlName="lastWeekDayOfTheMonth">
+            <mat-option *ngFor="let week of weeks" [value]="week.value">{{week.viewValue}}</mat-option>
+          </mat-select> of the month
+        </mat-form-field>
+
+      </mat-radio-button>
+
+    </div>
+  </mat-radio-group>
+</div>
+

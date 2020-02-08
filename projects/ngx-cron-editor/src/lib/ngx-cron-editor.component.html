@@ -1,0 +1,46 @@
+<div>
+  <mat-tab-group>
+    <mat-tab label="Seconds:">
+      <exrpression-selector
+        [expressionType] ="secondsExpressionType"
+        (expressionChange)="secondsCronExpressionChange($event)">
+      </exrpression-selector>
+    </mat-tab>
+    <mat-tab label="Minutes">
+      <exrpression-selector
+        [expressionType] ="minutesExpressionType"
+        (expressionChange)="secondsCronExpressionChange($event)">
+      </exrpression-selector>
+    </mat-tab>
+    <mat-tab label="Hour">
+      <exrpression-selector
+        [expressionType] ="hoursExpressionType"
+        (expressionChange)="secondsCronExpressionChange($event)">
+      </exrpression-selector>
+    </mat-tab>
+    <mat-tab label="Day">
+      <day-exrpression-selector></day-exrpression-selector>
+    </mat-tab>
+    <mat-tab label="Months">
+      <exrpression-selector
+        [expressionType] ="monthsExpressionType"
+        (expressionChange)="secondsCronExpressionChange($event)">
+      </exrpression-selector>
+    </mat-tab>
+    <mat-tab label="Year">
+      <exrpression-selector
+        [expressionType] ="yearExpressionType"
+        (expressionChange)="secondsCronExpressionChange($event)">
+      </exrpression-selector>
+    </mat-tab>
+    <mat-tab label="Custom">
+
+    </mat-tab>
+  </mat-tab-group>
+
+  <br/>
+  <p >
+    testing expression => {{cronExpression}}
+
+  </p>
+</div>
