@@ -2,10 +2,9 @@ import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MatRadioChange} from '@angular/material';
 
-import {
-  DayCronExpression, ICronExpression
-} from '../../Model/cron-expression';
+
 import {ExpressionType} from '../../Model/enums';
+import {DayCronExpression} from '../../Model/cron-expression';
 
 
 @Component({
@@ -16,7 +15,7 @@ import {ExpressionType} from '../../Model/enums';
 })
 export class DayExpressionSelectorComponent implements OnInit, AfterViewInit {
 
-  private croneExpression: ICronExpression;
+  private croneExpression: DayCronExpression;
   expressionFormGroup: FormGroup;
 
   weekIntervalDayMinValue = 1;
@@ -30,6 +29,8 @@ export class DayExpressionSelectorComponent implements OnInit, AfterViewInit {
     {value: '6', viewValue: 'Friday'},
     {value: '7', viewValue: 'Saturday'}
   ];
+  days = [];
+  daysOfTheWeek = [];
 
   @Input() expressionType: ExpressionType;
   @Input() expression: string;
@@ -49,22 +50,24 @@ export class DayExpressionSelectorComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
 
+    this.getdays();
+    this.getDaysOfTheWeek();
+
     this.croneExpression = new DayCronExpression();
 
     this.expressionFormGroup = this.formBuilder.group({
       everyDay: '*',
       weekInterval: this.formBuilder.group({
         day: [0],
-        week: [0]
+        week: []
       }),
       daysInterval: this.formBuilder.group({
         days: [0],
-        startingDay: [0]
+        startingDay: [1]
       }),
-      daysOfTheWeek: [],
-      daysOfTheMonth: [],
-      lastDayOfTheMonth: [],
-      lastWeekDayOfTheMonth: [],
+      daysOfWeek: this.formBuilder.array([...this.daysOfTheWeek]),
+      lastDayOfTheMonth: [{value: 'last', disabled: true}],
+      lastWeekDayOfTheMonth: [1],
       noOfDaysBeforeEndOfTheMonth: [],
       nThDayOfTheMonth: []
     });
@@ -80,4 +83,35 @@ export class DayExpressionSelectorComponent implements OnInit, AfterViewInit {
   onSelectionChange(radioSelection: MatRadioChange) {
     this.buildDayCronExpression(this.expressionFormGroup.value);
   }
+
+
+ getdays = () => {
+
+   this.days = [
+     {viewValue: '1st', value: 1},
+     {viewValue: '2nd', value: 2},
+     {viewValue: '3rd', value: 3}
+   ];
+
+   for (let i = 4; i <= 31; i++) {
+     this.days.push({viewValue: `${i}th`, value: i});
+   }
+
+ }
+
+
+ getDaysOfTheWeek = () => {
+
+   this.daysOfTheWeek = [
+     {viewValue: 'Sunday', value: 'SUN'},
+     {viewValue: 'Monday', value: 'MON'},
+     {viewValue: 'Tuesday', value: 'TUE'},
+     {viewValue: 'Wednesday', value: 'WED'},
+     {viewValue: 'Thursday', value: 'THU'},
+     {viewValue: 'Friday', value: 'FRI'},
+     {viewValue: 'Saturday', value: 'SAT'}
+   ];
+ }
+
+
 }

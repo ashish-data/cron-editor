@@ -1,5 +1,5 @@
-<div>
-  <mat-tab-group>
+<div fxFill>
+  <mat-tab-group (selectedTabChange)="tabChange($event)" >
     <mat-tab label="Seconds:">
       <exrpression-selector
         [expressionType] ="secondsExpressionType"
@@ -9,13 +9,13 @@
     <mat-tab label="Minutes">
       <exrpression-selector
         [expressionType] ="minutesExpressionType"
-        (expressionChange)="secondsCronExpressionChange($event)">
+        (expressionChange)="minutesCronExpressionChange($event)">
       </exrpression-selector>
     </mat-tab>
     <mat-tab label="Hour">
       <exrpression-selector
         [expressionType] ="hoursExpressionType"
-        (expressionChange)="secondsCronExpressionChange($event)">
+        (expressionChange)="hoursCronExpressionChange($event)">
       </exrpression-selector>
     </mat-tab>
     <mat-tab label="Day">
@@ -24,23 +24,26 @@
     <mat-tab label="Months">
       <exrpression-selector
         [expressionType] ="monthsExpressionType"
-        (expressionChange)="secondsCronExpressionChange($event)">
+        (expressionChange)="monthCronExpressionChange($event)">
       </exrpression-selector>
     </mat-tab>
     <mat-tab label="Year">
       <exrpression-selector
         [expressionType] ="yearExpressionType"
-        (expressionChange)="secondsCronExpressionChange($event)">
+        (expressionChange)="yearCronExpressionChange($event)">
       </exrpression-selector>
     </mat-tab>
     <mat-tab label="Custom">
-
+      <mat-form-field class="example-full-width">
+        <mat-label>Expression</mat-label>
+        <input matInput  (change)="expressionChanged($event)" placeholder="* 0 0 ? * * *">
+      </mat-form-field>
     </mat-tab>
   </mat-tab-group>
+</div>
 
-  <br/>
-  <p >
-    testing expression => {{cronExpression}}
-
-  </p>
+<div fxLayout="row" fxFill>
+  <mat-form-field>
+    <input matInput type="text" disabled [value]="this.cronExpression.toString() || this.cronExpression.value"/>
+  </mat-form-field>
 </div>
