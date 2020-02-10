@@ -1,7 +1,7 @@
 <div fxFill>
   <mat-tab-group (selectedTabChange)="tabChange($event)" >
-    <mat-tab label="Seconds:">
-      <exrpression-selector
+    <mat-tab label="Seconds">
+      <exrpression-selector #secondsExpressionSelector
         [expressionType] ="secondsExpressionType"
         (expressionChange)="secondsCronExpressionChange($event)">
       </exrpression-selector>
@@ -45,5 +45,6 @@
 <div fxLayout="row" fxFill>
   <mat-form-field>
     <input matInput type="text" disabled [value]="this.cronExpression.toString() || this.cronExpression.value"/>
+    <mat-icon (click)="reset()" matSuffix>refresh</mat-icon>
   </mat-form-field>
 </div>

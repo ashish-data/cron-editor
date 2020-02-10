@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
+import {CronExpression} from '@ashishp/ngx-cron-editor';
+
 
 @Component({
   selector: 'app-root',
@@ -8,9 +10,16 @@ import {FormControl} from '@angular/forms';
 })
 export class AppComponent implements OnInit {
   title = 'cron-editor';
-  public cronExpression = '0 0 1/1 * *';
+  public expression = '0 0 1/1 * *';
   cronForm: FormControl;
 
   ngOnInit(): void {
+  }
+
+  cronExpression(expression: CronExpression) {
+
+    if (expression) {
+      console.log(expression.toString());
+    }
   }
 }

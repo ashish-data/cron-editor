@@ -40,9 +40,3 @@ export enum ExpressionType {
   Month,
   Year
 }
-
-export enum ExpressionType {
-  Exact = 'Exact',
-  Interval = 'Interval',
-  Through = 'Through'
-}

@@ -1,7 +1,13 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {CronExpression, HourCronExpression, MonthCronExpression, SecondsCronExpression, YearCronExpression} from './Model/cron-expression';
+import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import {
+  CronExpression,
+  HourCronExpression,
+  MinutesCronExpression,
+  MonthCronExpression,
+  SecondsCronExpression,
+  YearCronExpression
+} from './Model/cron-expression';
 import {ExpressionType} from './Model/enums';
-import {MinuteCronExpression} from 'ngx-cron-editor/lib/Components/Minute/minute-cron-expression-model';
 import {MatTabChangeEvent} from '@angular/material';
 
 @Component({
@@ -23,6 +29,7 @@ export class NgxCronEditorComponent implements OnInit {
 
   @Output() expressionEmitter = new EventEmitter<CronExpression>();
 
+  @ViewChild('secondsExpressionSelector' , {static: false}) secondsExpressionSelector: ElementRef;
 
   constructor() {
     this.secondsExpressionType = ExpressionType.Seconds;
@@ -38,22 +45,27 @@ export class NgxCronEditorComponent implements OnInit {
 
   secondsCronExpressionChange(expression: SecondsCronExpression) {
     this.cronExpression.Seconds = expression.Seconds;
+    this.expressionEmitter.emit(this.cronExpression);
   }
 
-  minutesCronExpressionChange(expression: MinuteCronExpression) {
+  minutesCronExpressionChange(expression: MinutesCronExpression) {
     this.cronExpression.Minutes = expression.Minutes.toString();
+    this.expressionEmitter.emit(this.cronExpression);
   }
 
   hoursCronExpressionChange(expression: HourCronExpression) {
     this.cronExpression.Hours = expression.Hours.toString();
+    this.expressionEmitter.emit(this.cronExpression);
   }
 
   monthCronExpressionChange(expression: MonthCronExpression) {
     this.cronExpression.Month = expression.Month.toString();
+    this.expressionEmitter.emit(this.cronExpression);
   }
 
   yearCronExpressionChange(expression: YearCronExpression) {
     this.cronExpression.Year = expression.Year.toString();
+    this.expressionEmitter.emit(this.cronExpression);
   }
 
   expressionChanged(data: any) {
@@ -69,6 +81,10 @@ export class NgxCronEditorComponent implements OnInit {
   }
 
   tabChange(tabChange: MatTabChangeEvent) {
+
+  }
+
+  reset() {
 
   }
 }
