@@ -4,7 +4,6 @@ import {MatRadioChange} from '@angular/material';
 
 import {
   HourCronExpression,
-  ICronExpression,
   MinutesCronExpression, MonthCronExpression,
   SecondsCronExpression,
   YearCronExpression
@@ -21,19 +20,36 @@ import {ExpressionType } from '../../Model/enums';
 })
 export class ExpressionSelectorComponent implements OnInit, AfterViewInit {
 
-  private croneExpression: ICronExpression;
+  private croneExpression;
   expressionFormGroup: FormGroup;
+
+  everyTimeUnitText = '';
+  incrementText = '';
+  rangeText = '';
+  months = [];
+
+  minSeconds = 1;
+  maxSeconds = 60;
+  startingSecondsMinValue = 0 ;
+  startingSecondsMaxValue = 59 ;
+
+  minMinutes = 1;
+  maxMinutes = 60;
+  startingMinutesMinValue = 0 ;
+  startingMinutesMaxValue = 59 ;
 
   minHours = 1;
   maxHours = 24;
-  minSeconds = 0;
-  maxSeconds = 59;
-  minMinutes = 0;
-  maxMinutes = 59;
+  startingHoursMinValue = 0 ;
+  startingHoursMaxValue = 23 ;
+
   minMonths = 1;
   maxMonths = 12;
-  minYear = 2020;
-  maxYear = 2025;
+
+  minYear = 1;
+  maxYear = 10;
+  startingYearMinValue = 2020;
+  startingYearMaxValue = 2040;
 
   @Input() expressionType: ExpressionType;
   @Input() expression: string;
@@ -44,11 +60,9 @@ export class ExpressionSelectorComponent implements OnInit, AfterViewInit {
   @ViewChild('radioButtonRange', {static: true}) radioButtonRange: HTMLInputElement;
 
   constructor(private formBuilder: FormBuilder) {
-    console.log(this.expressionType);
   }
 
   ngAfterViewInit(): void {
-    console.log(this.expressionType);
   }
 
   get minValue(): number {
@@ -62,6 +76,34 @@ export class ExpressionSelectorComponent implements OnInit, AfterViewInit {
       return this.minMonths;
     } else if (this.expressionType === ExpressionType.Year) {
       return this.minYear;
+    }
+  }
+
+  get startingIntervalMinValue(): number {
+    if (this.expressionType === ExpressionType.Seconds) {
+      return this.startingSecondsMinValue;
+    } else if (this.expressionType === ExpressionType.Minute) {
+      return this.startingMinutesMinValue;
+    } else if (this.expressionType === ExpressionType.Hour) {
+      return this.startingHoursMinValue;
+    } else if (this.expressionType === ExpressionType.Month) {
+      return this.minMonths;
+    } else if (this.expressionType === ExpressionType.Year) {
+      return this.startingYearMinValue;
+    }
+  }
+
+  get startingIntervalMaxValue(): number {
+    if (this.expressionType === ExpressionType.Seconds) {
+      return this.startingSecondsMaxValue;
+    } else if (this.expressionType === ExpressionType.Minute) {
+      return this.startingMinutesMaxValue;
+    } else if (this.expressionType === ExpressionType.Hour) {
+      return this.startingHoursMaxValue;
+    } else if (this.expressionType === ExpressionType.Month) {
+      return this.minMonths;
+    } else if (this.expressionType === ExpressionType.Year) {
+      return this.startingYearMaxValue;
     }
   }
 
@@ -79,7 +121,7 @@ export class ExpressionSelectorComponent implements OnInit, AfterViewInit {
     }
   }
 
-  cronExpression(): ICronExpression {
+  cronExpression(): any {
     if (this.expressionType === ExpressionType.Seconds) {
       return new SecondsCronExpression();
     } else if (this.expressionType === ExpressionType.Minute) {
@@ -96,6 +138,8 @@ export class ExpressionSelectorComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
 
     this.croneExpression = this.cronExpression();
+    this.initializedText();
+    this.initializeMonth();
 
     this.expressionFormGroup = this.formBuilder.group({
       everyTimeUnit: '*',
@@ -203,4 +247,48 @@ export class ExpressionSelectorComponent implements OnInit, AfterViewInit {
     }
     this.expressionChange.emit(this.croneExpression);
   }
+
+  private initializedText() {
+    if (this.expressionType === ExpressionType.Seconds) {
+      this.everyTimeUnitText = 'Every second';
+      this.incrementText = 'seconds(s) starting at second';
+      this.rangeText = 'Every second between';
+    } else if (this.expressionType === ExpressionType.Minute) {
+      this.everyTimeUnitText = 'Every minute';
+      this.incrementText = 'minute(s) starting at minute';
+      this.rangeText = 'Every minute between';
+    } else if (this.expressionType === ExpressionType.Hour) {
+      this.everyTimeUnitText = 'Every hour';
+      this.incrementText = 'hour(s) starting at hour';
+      this.rangeText = 'Every hour between';
+    } else if (this.expressionType === ExpressionType.Month) {
+      this.everyTimeUnitText = 'Every month';
+      this.incrementText = 'month(s) starting in';
+      this.rangeText = 'Every month between';
+    } else if (this.expressionType === ExpressionType.Year) {
+      this.everyTimeUnitText = 'Any year';
+      this.incrementText = 'years(s) starting in';
+      this.rangeText = ' Every year between';
+    }
+  }
+
+  initializeMonth() {
+
+    this.months = [
+      {viewValue: 'January', value: 1},
+      {viewValue: 'February', value: 2},
+      {viewValue: 'March', value: 3},
+      {viewValue: 'April', value: 4},
+      {viewValue: 'May', value: 5},
+      {viewValue: 'June', value: 6},
+      {viewValue: 'July', value: 7},
+      {viewValue: 'August', value: 8},
+      {viewValue: 'September', value: 9},
+      {viewValue: 'October', value: 10},
+      {viewValue: 'November', value: 11},
+      {viewValue: 'December', value: 12}
+    ];
+  }
 }
+
+

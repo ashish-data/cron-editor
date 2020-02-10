@@ -1,8 +1,8 @@
-<div class ="parentContainer" [formGroup]="expressionFormGroup" >
+<div class="parentContainer" [formGroup]="expressionFormGroup">
   <mat-radio-group (change)="onSelectionChange($event)">
     <div fxLayout="column">
-      <mat-radio-button #radioButtonEveryTimeUnit value="1" [checked]="true" >
-        Every Hour
+      <mat-radio-button #radioButtonEveryTimeUnit value="1" [checked]="true">
+        {{everyTimeUnitText}}
       </mat-radio-button>
 
       <mat-radio-button #radioButtonIncrement value="2" [formGroup]="expressionFormGroup.controls.increment">
@@ -11,23 +11,56 @@
                     [min]="minValue"
                     [max]="maxValue">
         </mat-slider>
-        hour(s) starting at hour
-        <mat-slider thumbLabel formControlName="starting"
-                    [min]="minValue"
-                    [max]="maxValue">
-        </mat-slider>
+        {{incrementText}}
+        <ng-container *ngIf="expressionType !== 4">
+          <mat-slider thumbLabel formControlName="starting"
+                      [min]="startingIntervalMinValue"
+                      [max]="startingIntervalMaxValue">
+          </mat-slider>
+        </ng-container>
+
+        <ng-container *ngIf="expressionType === 4">
+          <mat-form-field>
+            <mat-select formControlName="starting">
+              <mat-option *ngFor="let month of months" [value]="month.value">{{month.viewValue}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+
       </mat-radio-button>
+
       <mat-radio-button #radioButtonRange value="3" [formGroup]="expressionFormGroup.controls.range">
-        Every hour between hour
-        <mat-slider thumbLabel formControlName="start"
-                    [min]="minValue"
-                    [max]="maxValue">
-        </mat-slider>
-        and hour
-        <mat-slider thumbLabel formControlName="end"
-                    [min]="minValue"
-                    [max]="maxValue">
-        </mat-slider>
+        {{rangeText}}
+        <ng-container *ngIf="expressionType !== 4">
+          <mat-slider thumbLabel formControlName="start"
+                      [min]="startingIntervalMinValue"
+                      [max]="startingIntervalMaxValue">
+          </mat-slider>
+        </ng-container>
+
+        <ng-container *ngIf="expressionType === 4">
+          <mat-form-field>
+            <mat-select formControlName="start">
+              <mat-option *ngFor="let month of months" [value]="month.value">{{month.viewValue}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+
+        and
+        <ng-container *ngIf="expressionType !== 4">
+          <mat-slider thumbLabel formControlName="end"
+                      [min]="startingIntervalMinValue"
+                      [max]="startingIntervalMaxValue">
+          </mat-slider>
+        </ng-container>
+
+        <ng-container *ngIf="expressionType === 4">
+          <mat-form-field>
+            <mat-select formControlName="end">
+              <mat-option *ngFor="let month of months" [value]="month.value">{{month.viewValue}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
       </mat-radio-button>
 
     </div>

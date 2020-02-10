@@ -1,6 +1,6 @@
 import {ExpressionType} from './enums';
 
-export interface ICronExpression {
+/*export interface ICronExpression {
   Seconds;
   Minutes;
   Hours;
@@ -10,22 +10,23 @@ export interface ICronExpression {
   Year;
 
   toString();
-}
+}*/
 
 
-export abstract class CronExpression implements ICronExpression {
+export class CronExpression {
 
   constructor() {
   }
 
-  Seconds;
-  Minutes;
-  Hours;
-  DayOfTheMonth;
-  Month;
-  DayOfTheWeek;
-  Year;
+  Seconds = '*';
+  Minutes = '0';
+  Hours = '0';
+  DayOfTheMonth = '?';
+  Month = '*';
+  DayOfTheWeek = '*';
+  Year = '*';
   Separator = ' ';
+  value = '';
 
   toString() {
     return `${this.Seconds}${this.Separator}${this.Minutes}${this.Separator}${this.Hours}${this.Separator}${this.DayOfTheMonth}${this.Separator}${this.Month}${this.Separator}${this.DayOfTheWeek}${this.Separator}${this.Year}`;
@@ -35,11 +36,11 @@ export abstract class CronExpression implements ICronExpression {
 export class SecondsCronExpression {
 
   Seconds = '*';
-  Minutes = '*';
-  Hours = '*';
-  DayOfTheMonth = '*';
+  Minutes = '0';
+  Hours = '0';
+  DayOfTheMonth = '?';
   Month = '*';
-  DayOfTheWeek = '?';
+  DayOfTheWeek = '*';
   Year = '*';
   Separator = ' ';
 
@@ -52,10 +53,10 @@ export class MinutesCronExpression {
 
   Seconds = '*';
   Minutes = '*';
-  Hours = '*';
-  DayOfTheMonth = '*';
+  Hours = '0';
+  DayOfTheMonth = '?';
   Month = '*';
-  DayOfTheWeek = '?';
+  DayOfTheWeek = '*';
   Year = '*';
   Separator = ' ';
 
@@ -69,9 +70,9 @@ export class HourCronExpression {
   Seconds = '*';
   Minutes = '*';
   Hours = '*';
-  DayOfTheMonth = '*';
+  DayOfTheMonth = '?';
   Month = '*';
-  DayOfTheWeek = '?';
+  DayOfTheWeek = '*';
   Year = '*';
   Separator = ' ';
 
@@ -85,9 +86,9 @@ export class MonthCronExpression {
   Seconds = '*';
   Minutes = '*';
   Hours = '*';
-  DayOfTheMonth = '*';
+  DayOfTheMonth = '?';
   Month = '*';
-  DayOfTheWeek = '?';
+  DayOfTheWeek = '*';
   Year = '*';
   Separator = ' ';
 
@@ -101,9 +102,9 @@ export class YearCronExpression {
   Seconds = '*';
   Minutes = '*';
   Hours = '*';
-  DayOfTheMonth = '*';
+  DayOfTheMonth = '?';
   Month = '*';
-  DayOfTheWeek = '?';
+  DayOfTheWeek = '*';
   Year = '*';
   Separator = ' ';
 
@@ -117,9 +118,9 @@ export class DayCronExpression {
   Seconds = '*';
   Minutes = '*';
   Hours = '*';
-  DayOfTheMonth = '*';
-  Month = '*';
-  DayOfTheWeek = '?';
+  DayOfTheMonth = '?';
+  Month = '1/1';
+  DayOfTheWeek = '*';
   Year = '*';
   Separator = ' ';
 
