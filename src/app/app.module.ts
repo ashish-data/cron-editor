@@ -7,19 +7,21 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {NgxCronEditorModule} from '../../projects/ngx-cron-editor/src/lib/ngx-cron-editor.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {ReactiveFormsModule} from '@angular/forms';
+import {MatSelectModule} from '@angular/material';
 
 @NgModule({
   declarations: [
     AppComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        NgxCronEditorModule,
-        FlexLayoutModule,
-        ReactiveFormsModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    NgxCronEditorModule,
+    FlexLayoutModule,
+    ReactiveFormsModule,
+    MatSelectModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

@@ -52,6 +52,7 @@ export class ExpressionSelectorComponent implements OnInit, AfterViewInit {
   startingYearMaxValue = 2040;
 
   @Input() expressionType: ExpressionType;
+
   @Input() expression: string;
   @Output() expressionChange = new EventEmitter();
 
@@ -158,6 +159,7 @@ export class ExpressionSelectorComponent implements OnInit, AfterViewInit {
 
     this.expressionFormGroup.valueChanges.subscribe(value => this.buildCronExpression(value));
     this.expressionChange.emit(this.croneExpression);
+
   }
 
   private buildCronExpression(data) {
@@ -251,7 +253,7 @@ export class ExpressionSelectorComponent implements OnInit, AfterViewInit {
   private initializedText() {
     if (this.expressionType === ExpressionType.Seconds) {
       this.everyTimeUnitText = 'Every second';
-      this.incrementText = 'seconds(s) starting at second';
+      this.incrementText = `seconds(s) starting at second`;
       this.rangeText = 'Every second between';
     } else if (this.expressionType === ExpressionType.Minute) {
       this.everyTimeUnitText = 'Every minute';

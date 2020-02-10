@@ -1,6 +1,6 @@
-import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {
-  CronExpression,
+  CronExpression, DayCronExpression,
   HourCronExpression,
   MinutesCronExpression,
   MonthCronExpression,
@@ -28,7 +28,7 @@ export class NgxCronEditorComponent implements OnInit {
   cronExpression: CronExpression = new CronExpression();
 
   @Output() expressionEmitter = new EventEmitter<CronExpression>();
-
+  @Input() layout = 'tab';
   @ViewChild('secondsExpressionSelector' , {static: false}) secondsExpressionSelector: ElementRef;
 
   constructor() {
@@ -65,6 +65,12 @@ export class NgxCronEditorComponent implements OnInit {
 
   yearCronExpressionChange(expression: YearCronExpression) {
     this.cronExpression.Year = expression.Year.toString();
+    this.expressionEmitter.emit(this.cronExpression);
+  }
+
+  dayCronExpressionChange(expression: DayCronExpression) {
+    this.cronExpression.DayOfTheWeek = expression.DayOfTheWeek.toString();
+    this.cronExpression.DayOfTheMonth = expression.DayOfTheMonth.toString();
     this.expressionEmitter.emit(this.cronExpression);
   }
 

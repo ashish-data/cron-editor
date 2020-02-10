@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {MatRadioChange} from '@angular/material';
+import {MatCheckboxChange, MatRadioChange} from '@angular/material';
 
 
 import {ExpressionType} from '../../Model/enums';
@@ -20,6 +20,13 @@ export class DayExpressionSelectorComponent implements OnInit, AfterViewInit {
 
   weekIntervalDayMinValue = 1;
   weekIntervalDayMaxValue = 7;
+  defaultSelectedWeek = '1';
+  defaultDayOfTheMonth = '1';
+  defaultLastWeekDayOfTheMonth = '1L';
+  selectedDays = [];
+  minDays = 1;
+  maxDays = 31;
+
   weeks = [
     {value: '1', viewValue: 'Sunday'},
     {value: '2', viewValue: 'Monday'},
@@ -29,6 +36,17 @@ export class DayExpressionSelectorComponent implements OnInit, AfterViewInit {
     {value: '6', viewValue: 'Friday'},
     {value: '7', viewValue: 'Saturday'}
   ];
+
+  lastWeeksDays = [
+    {value: '1L', viewValue: 'Sunday'},
+    {value: '2L', viewValue: 'Monday'},
+    {value: '3L', viewValue: 'Tuesday'},
+    {value: '4L', viewValue: 'Wednesday'},
+    {value: '5L', viewValue: 'Thursday'},
+    {value: '6L', viewValue: 'Friday'},
+    {value: '7L', viewValue: 'Saturday'}
+  ];
+
   days = [];
   daysOfTheWeek = [];
 
@@ -36,9 +54,12 @@ export class DayExpressionSelectorComponent implements OnInit, AfterViewInit {
   @Input() expression: string;
   @Output() expressionChange = new EventEmitter();
 
-  @ViewChild('radioButtonEveryTimeUnit', {static: true}) radioButtonEveryTimeUnit: HTMLInputElement;
-  @ViewChild('radioButtonIncrement', {static: true}) radioButtonIncrement: HTMLInputElement;
-  @ViewChild('radioButtonRange', {static: true}) radioButtonRange: HTMLInputElement;
+  @ViewChild('radioButtonEveryDay', {static: true}) radioButtonEveryDay: HTMLInputElement;
+  @ViewChild('radioButtonWeekInterval', {static: true}) radioButtonWeekInterval: HTMLInputElement;
+  @ViewChild('radioButtonDaysInterval', {static: true}) radioButtonDaysInterval: HTMLInputElement;
+  @ViewChild('radioButtonDaysOfTheWeek', {static: true}) radioButtonDaysOfTheWeek: HTMLInputElement;
+  @ViewChild('radioButtonLastDayOfTheMonth', {static: true}) radioButtonLastDayOfTheMonth: HTMLInputElement;
+  @ViewChild('radioButtonLastWeekDayOfTheMonth', {static: true}) radioButtonLastWeekDayOfTheMonth: HTMLInputElement;
 
   constructor(private formBuilder: FormBuilder) {
   }
@@ -50,7 +71,7 @@ export class DayExpressionSelectorComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
 
-    this.getdays();
+    this.getDays();
     this.getDaysOfTheWeek();
 
     this.croneExpression = new DayCronExpression();
@@ -62,12 +83,12 @@ export class DayExpressionSelectorComponent implements OnInit, AfterViewInit {
         week: []
       }),
       daysInterval: this.formBuilder.group({
-        days: [0],
-        startingDay: [1]
+        days: [1],
+        startingDay: []
       }),
       daysOfWeek: this.formBuilder.array([...this.daysOfTheWeek]),
       lastDayOfTheMonth: [{value: 'last', disabled: true}],
-      lastWeekDayOfTheMonth: [1],
+      lastWeekDayOfTheMonth: [],
       noOfDaysBeforeEndOfTheMonth: [],
       nThDayOfTheMonth: []
     });
@@ -78,6 +99,31 @@ export class DayExpressionSelectorComponent implements OnInit, AfterViewInit {
 
   private buildDayCronExpression(data: any) {
 
+    if (this.radioButtonEveryDay.checked) {
+      this.croneExpression.DayOfTheWeek = '*';
+      this.croneExpression.DayOfTheMonth = '?';
+
+    } else if (this.radioButtonWeekInterval.checked) {
+      this.croneExpression.DayOfTheMonth = '?';
+      this.croneExpression.DayOfTheWeek = `${data.weekInterval.week}/${data.weekInterval.day}`;
+
+    } else if (this.radioButtonDaysInterval.checked) {
+      this.croneExpression.DayOfTheMonth = `${data.daysInterval.startingDay}/${data.daysInterval.days}`;
+      this.croneExpression.DayOfTheWeek = '?';
+
+    } else if (this.radioButtonDaysOfTheWeek.checked) {
+      this.croneExpression.DayOfTheMonth = '?';
+      this.croneExpression.DayOfTheWeek = this.selectedDays.join();
+
+    } else if (this.radioButtonLastDayOfTheMonth.checked) {
+      this.croneExpression.DayOfTheMonth = 'L';
+      this.croneExpression.DayOfTheWeek = '?';
+
+    } else if (this.radioButtonLastWeekDayOfTheMonth.checked) {
+      this.croneExpression.DayOfTheMonth = '?';
+      this.croneExpression.DayOfTheWeek = data.lastWeekDayOfTheMonth;
+    }
+    this.expressionChange.emit(this.croneExpression);
   }
 
   onSelectionChange(radioSelection: MatRadioChange) {
@@ -85,33 +131,48 @@ export class DayExpressionSelectorComponent implements OnInit, AfterViewInit {
   }
 
 
- getdays = () => {
+  getDays = () => {
 
-   this.days = [
-     {viewValue: '1st', value: 1},
-     {viewValue: '2nd', value: 2},
-     {viewValue: '3rd', value: 3}
-   ];
+    this.days = [
+      {viewValue: '1st', value: '1'},
+      {viewValue: '2nd', value: '2'},
+      {viewValue: '3rd', value: '3'}
+    ];
 
-   for (let i = 4; i <= 31; i++) {
-     this.days.push({viewValue: `${i}th`, value: i});
-   }
+    for (let i = 4; i <= 31; i++) {
+      this.days.push({viewValue: `${i}th`, value: `${i}`});
+    }
 
- }
-
-
- getDaysOfTheWeek = () => {
-
-   this.daysOfTheWeek = [
-     {viewValue: 'Sunday', value: 'SUN'},
-     {viewValue: 'Monday', value: 'MON'},
-     {viewValue: 'Tuesday', value: 'TUE'},
-     {viewValue: 'Wednesday', value: 'WED'},
-     {viewValue: 'Thursday', value: 'THU'},
-     {viewValue: 'Friday', value: 'FRI'},
-     {viewValue: 'Saturday', value: 'SAT'}
-   ];
- }
+  };
 
 
+  getDaysOfTheWeek = () => {
+
+    this.daysOfTheWeek = [
+      {viewValue: 'Sunday', value: 'SUN', selected: true},
+      {viewValue: 'Monday', value: 'MON'},
+      {viewValue: 'Tuesday', value: 'TUE'},
+      {viewValue: 'Wednesday', value: 'WED'},
+      {viewValue: 'Thursday', value: 'THU'},
+      {viewValue: 'Friday', value: 'FRI'},
+      {viewValue: 'Saturday', value: 'SAT'}
+    ];
+  };
+
+
+  daysSelectionChange(data: MatCheckboxChange) {
+
+    if (!this.selectedDays.includes(data.source.value)) {
+      if (data.checked) {
+        this.selectedDays.push(data.source.value);
+      }
+    } else {
+      if (!data.checked) {
+        this.selectedDays = [...this.selectedDays.filter(d => d !== data.source.value)];
+      }
+    }
+
+    this.croneExpression.DayOfTheWeek = this.selectedDays.join();
+    this.expressionChange.emit(this.croneExpression);
+  }
 }

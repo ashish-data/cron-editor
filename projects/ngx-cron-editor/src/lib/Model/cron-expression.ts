@@ -115,11 +115,11 @@ export class YearCronExpression {
 
 export class DayCronExpression {
 
-  Seconds = '*';
-  Minutes = '*';
-  Hours = '*';
+  Seconds = '0';
+  Minutes = '0';
+  Hours = '0';
   DayOfTheMonth = '?';
-  Month = '1/1';
+  Month = '*';
   DayOfTheWeek = '*';
   Year = '*';
   Separator = ' ';
