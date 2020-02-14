@@ -1,0 +1,91 @@
+<mat-vertical-stepper #stepper linear="false">
+  <ng-template matStepperIcon="edit">
+  </ng-template>
+  <ng-template matStepperIcon="number" let-index="index">
+  </ng-template>
+
+  <mat-step label="Minutes">
+    <div class="parentContainer" [formGroup]="timeFormGroup">
+      <mat-radio-group (change)="minutesSelectionChange($event)" >
+        <div fxLayout="column">
+          <mat-radio-button  #radioButtonMinutesEveryTimeUnit value="0" >
+            Every minute
+          </mat-radio-button>
+
+          <mat-radio-button #radioButtonMinutesIncrement value="1" >
+            Every
+            <mat-slider thumbLabel formControlName="minutesIncrementInterval"
+                        [min]="minMinutes"
+                        [max]="maxMinutes">
+            </mat-slider>
+            minute(s) starting at minute
+              <mat-slider thumbLabel formControlName="minutesIncrementStarting"
+                          [min]="startingMinutesMinValue"
+                          [max]="startingMinutesMaxValue">
+              </mat-slider>
+
+          </mat-radio-button>
+
+          <mat-radio-button #radioButtonMinutesRange value="2" >
+            Every minute between
+              <mat-slider thumbLabel formControlName="minutesRangeStart"
+                          [min]="startingMinutesMinValue"
+                          [max]="startingMinutesMaxValue">
+              </mat-slider>
+            and
+              <mat-slider thumbLabel formControlName="minutesRangeEnd"
+                          [min]="startingMinutesMinValue"
+                          [max]="startingMinutesMaxValue">
+              </mat-slider>
+
+          </mat-radio-button>
+
+        </div>
+      </mat-radio-group>
+    </div>
+  </mat-step>
+  <mat-step label="Hours">
+
+    <div class="parentContainer" [formGroup]="timeFormGroup">
+
+      <mat-radio-group (change)="hoursSelectionChange($event)">
+        <div fxLayout="column">
+          <mat-radio-button #radioButtonHourEveryTimeUnit value="0" >
+            Every hour
+          </mat-radio-button>
+
+          <mat-radio-button #radioButtonHourIncrement value="1" >
+            Every
+            <mat-slider thumbLabel formControlName="hoursIncrementInterval"
+                        [min]="minHours"
+                        [max]="maxHours">
+            </mat-slider>
+            hour(s) starting at hour
+              <mat-slider thumbLabel formControlName="hoursIncrementStarting"
+                          [min]="startingHoursMinValue"
+                          [max]="startingHoursMaxValue">
+              </mat-slider>
+
+          </mat-radio-button>
+
+          <mat-radio-button #radioButtonHourRange value="2" >
+            Every hour between
+              <mat-slider thumbLabel formControlName="hoursRangeStart"
+                          [min]="startingHoursMinValue"
+                          [max]="startingHoursMaxValue">
+              </mat-slider>
+            and
+              <mat-slider thumbLabel formControlName="hoursRangeEnd"
+                          [min]="startingHoursMinValue"
+                          [max]="startingHoursMaxValue">
+              </mat-slider>
+
+          </mat-radio-button>
+        </div>
+      </mat-radio-group>
+    </div>
+  </mat-step>
+</mat-vertical-stepper>
+
+
+

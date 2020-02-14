@@ -1,37 +1,3 @@
-export const Days = {
-  SUN: 'Sunday',
-  MON: 'Monday',
-  TUE: 'Tuesday',
-  WED: 'Wednesday',
-  THU: 'Thursday',
-  FRI: 'Friday',
-  SAT: 'Saturday'
-};
-
-export const MonthWeeks = {
-  '#1': 'First',
-  '#2': 'Second',
-  '#3': 'Third',
-  '#4': 'Fourth',
-  '#5': 'Fifth',
-  L: 'Last'
-};
-
-export enum Months {
-  January = 1,
-  February,
-  March,
-  April,
-  May,
-  June,
-  July,
-  August,
-  September,
-  October,
-  November,
-  December
-}
-
 export enum ExpressionType {
   Seconds,
   Minute,
@@ -40,3 +6,20 @@ export enum ExpressionType {
   Month,
   Year
 }
+
+export enum ExpressionMode {
+  EveryTimeUnit = '0',
+  Interval = '1',
+  Range = '2',
+  None = '3'
+}
+
+export enum DayExpressionMode {
+  EveryTimeUnit = '0',
+  WeekInterval = '1',
+  DayInterval = '2',
+  WeekDay = '3',
+  LastDayOfMonth = '4',
+  LastWeekDayOfMonth = '5'
+}
+

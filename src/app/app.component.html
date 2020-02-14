@@ -1,13 +1,4 @@
-<div> Layout
-  <mat-form-field>
-    <mat-select (selectionChange)="onChange($event)">
-      <mat-option value="tab">Tab</mat-option>
-      <mat-option value="stepper">Stepper</mat-option>
-      <mat-option value="accordion">Accordion</mat-option>
-    </mat-select>
-  </mat-form-field>
-</div>
 <ngx-cron-editor
   (expressionEmitter)="cronExpression($event)"
-  [layout]="layout"
+  [options]="options"
 ></ngx-cron-editor>

@@ -1,27 +1,27 @@
-<div class="parentContainer" [formGroup]="expressionFormGroup">
-  <mat-radio-group (change)="onSelectionChange($event)">
+<div class="parentContainer" [formGroup]="formGroup" >
+  <mat-radio-group (change)="onSelectionChange($event)"  >
     <div fxLayout="column">
-      <mat-radio-button #radioButtonEveryTimeUnit value="1" [checked]="true">
+      <mat-radio-button  #radioButtonEveryTimeUnit value="0" >
         {{everyTimeUnitText}}
       </mat-radio-button>
 
-      <mat-radio-button #radioButtonIncrement value="2" [formGroup]="expressionFormGroup.controls.increment">
+      <mat-radio-button #radioButtonIncrement value="1" >
         Every
-        <mat-slider thumbLabel formControlName="interval"
+        <mat-slider thumbLabel formControlName="incrementInterval"
                     [min]="minValue"
                     [max]="maxValue">
         </mat-slider>
         {{incrementText}}
-        <ng-container *ngIf="expressionType !== 4">
-          <mat-slider thumbLabel formControlName="starting"
-                      [min]="startingIntervalMinValue"
-                      [max]="startingIntervalMaxValue">
+        <ng-container *ngIf="expressionType === 5">
+          <mat-slider thumbLabel formControlName="incrementStarting"
+                      [min]="startingYearMinValue"
+                      [max]="startingYearMaxValue">
           </mat-slider>
         </ng-container>
 
         <ng-container *ngIf="expressionType === 4">
           <mat-form-field>
-            <mat-select formControlName="starting">
+            <mat-select formControlName="incrementStarting">
               <mat-option *ngFor="let month of months" [value]="month.value">{{month.viewValue}}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -29,10 +29,10 @@
 
       </mat-radio-button>
 
-      <mat-radio-button #radioButtonRange value="3" [formGroup]="expressionFormGroup.controls.range">
+      <mat-radio-button #radioButtonRange value="2" >
         {{rangeText}}
-        <ng-container *ngIf="expressionType !== 4">
-          <mat-slider thumbLabel formControlName="start"
+        <ng-container *ngIf="expressionType === 5">
+          <mat-slider thumbLabel formControlName="rangeStart"
                       [min]="startingIntervalMinValue"
                       [max]="startingIntervalMaxValue">
           </mat-slider>
@@ -40,15 +40,15 @@
 
         <ng-container *ngIf="expressionType === 4">
           <mat-form-field>
-            <mat-select formControlName="start">
-              <mat-option *ngFor="let month of months" [value]="month.value">{{month.viewValue}}</mat-option>
+            <mat-select formControlName="rangeStart">
+              <mat-option *ngFor="let rangeStartMonth of rangeStartMonths" [value]="rangeStartMonth.value">{{rangeStartMonth.viewValue}}</mat-option>
             </mat-select>
           </mat-form-field>
         </ng-container>
 
         and
         <ng-container *ngIf="expressionType !== 4">
-          <mat-slider thumbLabel formControlName="end"
+          <mat-slider thumbLabel formControlName="rangeEnd"
                       [min]="startingIntervalMinValue"
                       [max]="startingIntervalMaxValue">
           </mat-slider>
@@ -56,10 +56,12 @@
 
         <ng-container *ngIf="expressionType === 4">
           <mat-form-field>
-            <mat-select formControlName="end">
-              <mat-option *ngFor="let month of months" [value]="month.value">{{month.viewValue}}</mat-option>
+            <mat-select formControlName="rangeEnd">
+              <mat-option *ngFor="let rangeEndMonth of rangeEndMonths" [value]="rangeEndMonth.value">{{rangeEndMonth.viewValue}}</mat-option>
             </mat-select>
+            <mat-error *ngIf="isRangeValid">asdas</mat-error>
           </mat-form-field>
+
         </ng-container>
       </mat-radio-button>
 

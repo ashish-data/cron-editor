@@ -1,179 +1,40 @@
-<div fxFill *ngIf=" layout === 'tab'">
-  <mat-tab-group (selectedTabChange)="tabChange($event)" >
-    <mat-tab label="Seconds">
-      <exrpression-selector #secondsExpressionSelector
-        [expressionType] ="secondsExpressionType"
-        (expressionChange)="secondsCronExpressionChange($event)">
-      </exrpression-selector>
+<div fxFill *ngIf=" options.layout === 'tab'">
+  <mat-tab-group >
+    <mat-tab label="Time" >
+      <time-selector
+        (minutesExpressionChange) = "buildMinutesExpression($event)"
+        (hoursExpressionChange) = "buildHoursExpression($event)"
+      ></time-selector>
     </mat-tab>
-    <mat-tab label="Minutes">
-      <exrpression-selector
-        [expressionType] ="minutesExpressionType"
-        (expressionChange)="minutesCronExpressionChange($event)">
-      </exrpression-selector>
-    </mat-tab>
-    <mat-tab label="Hour">
-      <exrpression-selector
-        [expressionType] ="hoursExpressionType"
-        (expressionChange)="hoursCronExpressionChange($event)">
-      </exrpression-selector>
-    </mat-tab>
+
     <mat-tab label="Day">
       <day-exrpression-selector
-      (expressionChange) ="dayCronExpressionChange($event)"
-      ></day-exrpression-selector>
+        (expressionChange)="buildDayExpression($event)">
+      </day-exrpression-selector>
     </mat-tab>
     <mat-tab label="Months">
       <exrpression-selector
-        [expressionType] ="monthsExpressionType"
-        (expressionChange)="monthCronExpressionChange($event)">
+        [expressionType]="monthsExpressionType"
+        (expressionChange)="buildMonthExpression($event)">
       </exrpression-selector>
     </mat-tab>
-    <mat-tab label="Year">
+    <mat-tab label="Year" *ngIf="options.showYear">
       <exrpression-selector
-        [expressionType] ="yearExpressionType"
-        (expressionChange)="yearCronExpressionChange($event)">
+        [expressionType]="yearExpressionType"
+        (expressionChange)="buildYearExpression($event)">
       </exrpression-selector>
     </mat-tab>
-    <mat-tab label="Custom">
-      <mat-form-field class="example-full-width">
-        <mat-label>Expression</mat-label>
-        <input matInput  (change)="expressionChanged($event)" placeholder="* 0 0 ? * * *">
-      </mat-form-field>
+
+    <mat-tab label="Pre-defined Expression" *ngIf="options.expressions && options.expressions.length > 0">
+      <mat-nav-list>
+        <mat-list-item *ngFor="let expression of options.expressions" (click)="selectPreDefinedExpression(expression)">
+          {{buildVerboseExpression(expression.expression)}}
+        </mat-list-item>
+      </mat-nav-list>
     </mat-tab>
   </mat-tab-group>
 </div>
-
-<div *ngIf="layout === 'stepper'">
-
-  <mat-vertical-stepper #stepper linear="false" >
-    <ng-template matStepperIcon="edit">
-    </ng-template>
-    <ng-template matStepperIcon="number" let-index="index">
-    </ng-template>
-
-    <mat-step label="Seconds">
-      <exrpression-selector #secondsExpressionSelector
-                            [expressionType] ="secondsExpressionType"
-                            (expressionChange)="secondsCronExpressionChange($event)">
-      </exrpression-selector>
-    </mat-step>
-    <mat-step label="Minutes">
-      <exrpression-selector
-        [expressionType] ="minutesExpressionType"
-        (expressionChange)="minutesCronExpressionChange($event)">
-      </exrpression-selector>
-    </mat-step>
-    <mat-step label="Hour">
-      <exrpression-selector
-        [expressionType] ="hoursExpressionType"
-        (expressionChange)="hoursCronExpressionChange($event)">
-      </exrpression-selector>
-    </mat-step>
-    <mat-step label="Day">
-      <day-exrpression-selector
-        (expressionChange) ="dayCronExpressionChange($event)"
-      ></day-exrpression-selector>
-    </mat-step>
-    <mat-step label="Months">
-      <exrpression-selector
-        [expressionType] ="monthsExpressionType"
-        (expressionChange)="monthCronExpressionChange($event)">
-      </exrpression-selector>
-    </mat-step>
-    <mat-step label="Year">
-      <exrpression-selector
-        [expressionType] ="yearExpressionType"
-        (expressionChange)="yearCronExpressionChange($event)">
-      </exrpression-selector>
-    </mat-step>
-    <mat-step label="Custom">
-      <mat-form-field class="example-full-width">
-        <mat-label>Expression</mat-label>
-        <input matInput  (change)="expressionChanged($event)" placeholder="* 0 0 ? * * *">
-      </mat-form-field>
-    </mat-step>
-  </mat-vertical-stepper>
-</div>
-
-<div *ngIf=" layout === 'accordion'">
-  <mat-accordion>
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>Seconds</mat-panel-title>
-      </mat-expansion-panel-header>
-      <exrpression-selector #secondsExpressionSelector
-                            [expressionType] ="secondsExpressionType"
-                            (expressionChange)="secondsCronExpressionChange($event)">
-      </exrpression-selector>
-    </mat-expansion-panel>
-
-    <mat-expansion-panel >
-      <mat-expansion-panel-header>
-        <mat-panel-title>Minutes</mat-panel-title>
-      </mat-expansion-panel-header>
-      <exrpression-selector
-        [expressionType] ="minutesExpressionType"
-        (expressionChange)="minutesCronExpressionChange($event)">
-      </exrpression-selector>
-    </mat-expansion-panel>
-
-    <mat-expansion-panel >
-      <mat-expansion-panel-header>
-        <mat-panel-title>Hour</mat-panel-title>
-      </mat-expansion-panel-header>
-      <exrpression-selector
-        [expressionType] ="hoursExpressionType"
-        (expressionChange)="hoursCronExpressionChange($event)">
-      </exrpression-selector>
-    </mat-expansion-panel>
-
-    <mat-expansion-panel >
-      <mat-expansion-panel-header>
-        <mat-panel-title>Day</mat-panel-title>
-      </mat-expansion-panel-header>
-      <day-exrpression-selector
-        (expressionChange) ="dayCronExpressionChange($event)"
-      ></day-exrpression-selector>
-    </mat-expansion-panel>
-
-    <mat-expansion-panel >
-      <mat-expansion-panel-header>
-        <mat-panel-title>Months</mat-panel-title>
-      </mat-expansion-panel-header>
-      <exrpression-selector
-        [expressionType] ="monthsExpressionType"
-        (expressionChange)="monthCronExpressionChange($event)">
-      </exrpression-selector>
-    </mat-expansion-panel>
-
-
-    <mat-expansion-panel >
-      <mat-expansion-panel-header>
-        <mat-panel-title>Year</mat-panel-title>
-      </mat-expansion-panel-header>
-      <exrpression-selector
-        [expressionType] ="yearExpressionType"
-        (expressionChange)="yearCronExpressionChange($event)">
-      </exrpression-selector>
-    </mat-expansion-panel>
-
-    <mat-expansion-panel >
-      <mat-expansion-panel-header>
-        <mat-panel-title>Custom</mat-panel-title>
-      </mat-expansion-panel-header>
-      <mat-form-field class="example-full-width">
-        <mat-label>Expression</mat-label>
-        <input matInput  (change)="expressionChanged($event)" placeholder="* 0 0 ? * * *">
-      </mat-form-field>
-    </mat-expansion-panel>
-
-  </mat-accordion>
-</div>
-
-<div fxLayout="row" fxFill>
-  <mat-form-field>
-    <input matInput type="text" disabled [value]="this.cronExpression.toString()"/>
-    <mat-icon (click)="reset()" matSuffix>refresh</mat-icon>
-  </mat-form-field>
+<div fxLayout="column" class="expressionText">
+  <div >{{cronExpression.toString()}}</div>
+  <div >{{cronExpression.verbose()}}</div>asd
 </div>

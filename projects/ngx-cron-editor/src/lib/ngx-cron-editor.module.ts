@@ -2,26 +2,26 @@ import {NgModule} from '@angular/core';
 import {NgxCronEditorComponent} from './ngx-cron-editor.component';
 import {
   MatButtonModule, MatCardModule,
-  MatCheckboxModule, MatDividerModule, MatExpansionModule,
+  MatCheckboxModule, MatChipsModule, MatDividerModule, MatExpansionModule,
   MatIconModule,
-  MatInputModule,
+  MatInputModule, MatListModule,
   MatRadioModule,
   MatSelectModule, MatSliderModule, MatSlideToggleModule, MatStepperModule,
   MatTabsModule
 } from '@angular/material';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {FlexLayoutModule} from '@angular/flex-layout';
-
-
-
 import {CommonModule} from '@angular/common';
 import {ExpressionSelectorComponent} from './Components/expression-selector/expression-selector.component';
 import {DayExpressionSelectorComponent} from './Components/Day/day-expression.component';
+import {TimeSelectorComponent} from './Components/Time/time-selector.component';
+import {TextMaskModule} from 'angular2-text-mask';
+
 
 
 @NgModule({
-    declarations: [NgxCronEditorComponent,
-        ExpressionSelectorComponent, DayExpressionSelectorComponent],
+  declarations: [NgxCronEditorComponent,
+    ExpressionSelectorComponent, DayExpressionSelectorComponent, TimeSelectorComponent],
   imports: [
     CommonModule,
     MatButtonModule,
@@ -38,7 +38,11 @@ import {DayExpressionSelectorComponent} from './Components/Day/day-expression.co
     MatCardModule,
     MatSlideToggleModule,
     MatStepperModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatChipsModule,
+    MatListModule,
+    FormsModule,
+    TextMaskModule
   ],
   exports: [NgxCronEditorComponent]
 })

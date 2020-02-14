@@ -1,33 +1,33 @@
-import {Component, OnInit} from '@angular/core';
-import {FormControl} from '@angular/forms';
-/*import {CronExpression} from '../../projects/ngx-cron-editor/src/lib/Model/cron-expression';*/
-import {MatSelectChange} from '@angular/material';
-import {CronExpression} from '@ashishp/ngx-cron-editor';
-
+import {Component} from '@angular/core';
+import {IExpression, Options, CronExpression} from '@ashishp/ngx-cron-editor';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'cron-editor';
-  public expression = '0 0 1/1 * *';
-  cronForm: FormControl;
 
-  layout = 'accordion';
-  ngOnInit(): void {
+  get options(): Options {
+    const options = new Options();
+    options.expressions = this.initializeDefaultExpression;
+    options.showYear = true;
+    return options;
   }
 
+  get initializeDefaultExpression(): IExpression[] {
+    const expressions: IExpression[] = [];
+
+    expressions.push({expression: '0 0 0 * ? * *', text: ''});
+    expressions.push({expression: '0 0 0 */6 ? * *'});
+    expressions.push({expression: '0 0 0 12 * * TUE'});
+    return expressions;
+  }
 
   cronExpression(expression: CronExpression) {
-
     if (expression) {
       console.log(expression.toString());
     }
-  }
-
-  onChange(data: MatSelectChange) {
-    this.layout = data.value;
   }
 }
