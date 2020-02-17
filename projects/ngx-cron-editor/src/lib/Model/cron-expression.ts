@@ -23,7 +23,7 @@ export class CronExpression {
 
   verbose = () => cronstrue.toString(this.toString());
   toString() {
-    return `${this.Seconds}${this.Separator}${this.Minutes}${this.Separator}${this.Hours}${this.Separator}${this.DayOfTheMonth}${this.Separator}${this.Month}${this.Separator}${this.DayOfTheWeek}${this.Separator}${this.Year}`;
+    return `${this.Minutes}${this.Separator}${this.Hours}${this.Separator}${this.DayOfTheMonth}${this.Separator}${this.Month}${this.Separator}${this.DayOfTheWeek}`;
   }
 }
 
@@ -33,4 +33,5 @@ export class CronExpression {
 export interface IExpression {
   expression: string;
   text?: string;
+  selected?: boolean;
 }

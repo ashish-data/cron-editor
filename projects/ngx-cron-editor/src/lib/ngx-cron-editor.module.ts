@@ -15,12 +15,12 @@ import {CommonModule} from '@angular/common';
 import {ExpressionSelectorComponent} from './Components/expression-selector/expression-selector.component';
 import {DayExpressionSelectorComponent} from './Components/Day/day-expression.component';
 import {TimeSelectorComponent} from './Components/Time/time-selector.component';
-import {TextMaskModule} from 'angular2-text-mask';
+import {CronPickerComponent} from './Components/cron-picker/cron-picker.component';
 
 
 
 @NgModule({
-  declarations: [NgxCronEditorComponent,
+  declarations: [NgxCronEditorComponent, CronPickerComponent,
     ExpressionSelectorComponent, DayExpressionSelectorComponent, TimeSelectorComponent],
   imports: [
     CommonModule,
@@ -41,10 +41,9 @@ import {TextMaskModule} from 'angular2-text-mask';
     MatExpansionModule,
     MatChipsModule,
     MatListModule,
-    FormsModule,
-    TextMaskModule
+    FormsModule
   ],
-  exports: [NgxCronEditorComponent]
+  exports: [NgxCronEditorComponent, CronPickerComponent]
 })
 export class NgxCronEditorModule {
 }

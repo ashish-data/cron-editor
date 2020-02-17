@@ -1,0 +1,12 @@
+<div fxLayout="column">
+  <mat-form-field appearance="outline">
+    <mat-label>Cron expression</mat-label>
+  <mat-chip-list  class="mat-chip-list-stacked" >
+    <mat-chip  (click)="expressionSelected(expression)"
+      [selected]="expression.selected"
+      *ngFor="let expression of parsedExpression">
+      {{buildVerboseExpression(expression.expression)}}
+    </mat-chip>
+  </mat-chip-list>
+  </mat-form-field>
+</div>

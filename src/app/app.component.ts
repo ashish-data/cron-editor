@@ -1,5 +1,7 @@
 import {Component} from '@angular/core';
-import {IExpression, Options, CronExpression} from '@ashishp/ngx-cron-editor';
+// import {IExpression, Options, CronExpression, } from '@ashishp/ngx-cron-editor';
+import {CronPickerComponent} from '../../projects/ngx-cron-editor/src/lib/Components/cron-picker/cron-picker.component';
+import {CronExpression, IExpression, Options} from '../../projects/ngx-cron-editor/src/lib/Model/cron-expression';
 
 @Component({
   selector: 'app-root',
@@ -8,26 +10,34 @@ import {IExpression, Options, CronExpression} from '@ashishp/ngx-cron-editor';
 })
 export class AppComponent {
   title = 'cron-editor';
+  expressions: IExpression[] = [];
 
-  get options(): Options {
+
+  constructor() {
+    this.initializeDefaultExpression();
+  }
+/*  get options(): Options {
     const options = new Options();
     options.expressions = this.initializeDefaultExpression;
     options.showYear = true;
     return options;
-  }
+  }*/
+  locale = 'en';
 
-  get initializeDefaultExpression(): IExpression[] {
-    const expressions: IExpression[] = [];
-
-    expressions.push({expression: '0 0 0 * ? * *', text: ''});
-    expressions.push({expression: '0 0 0 */6 ? * *'});
-    expressions.push({expression: '0 0 0 12 * * TUE'});
-    return expressions;
-  }
+   initializeDefaultExpression() {
+     //  replace ? with * for text display
+     this.expressions.push({expression: '0 0 * * FRI'});
+     this.expressions.push({expression: '0 0 */6 * *', selected: true});
+     this.expressions.push({expression: '0 2 * 9-12 TUE'});
+   }
 
   cronExpression(expression: CronExpression) {
     if (expression) {
       console.log(expression.toString());
     }
+  }
+
+  selectedExpression(expression: IExpression) {
+    console.log(expression.expression);
   }
 }

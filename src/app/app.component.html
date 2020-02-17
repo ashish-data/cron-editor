@@ -1,4 +1,11 @@
-<ngx-cron-editor
+<!--<ngx-cron-editor
   (expressionEmitter)="cronExpression($event)"
   [options]="options"
-></ngx-cron-editor>
+></ngx-cron-editor>-->
+
+
+<ngx-cron-picker
+  [locale]="locale"
+  [expressions]="expressions"
+  (selectedExpression)="selectedExpression($event)"
+></ngx-cron-picker>
