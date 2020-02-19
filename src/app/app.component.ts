@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
-// import {IExpression, Options, CronExpression, } from '@ashishp/ngx-cron-editor';
+import {IExpression, Options, CronExpression, } from '@ashishp/ngx-cron-editor';
 import {CronPickerComponent} from '../../projects/ngx-cron-editor/src/lib/Components/cron-picker/cron-picker.component';
-import {CronExpression, IExpression, Options} from '../../projects/ngx-cron-editor/src/lib/Model/cron-expression';
+// import {CronExpression, IExpression, Options} from '../../projects/ngx-cron-editor/src/lib/Model/cron-expression';
 
 @Component({
   selector: 'app-root',

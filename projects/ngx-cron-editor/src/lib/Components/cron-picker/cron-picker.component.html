@@ -1,7 +1,7 @@
-<div fxLayout="column">
-  <mat-form-field appearance="outline">
+<div >
+  <mat-form-field appearance="outline" >
     <mat-label>Cron expression</mat-label>
-  <mat-chip-list  class="mat-chip-list-stacked" >
+  <mat-chip-list aria-orientation="vertical" >
     <mat-chip  (click)="expressionSelected(expression)"
       [selected]="expression.selected"
       *ngFor="let expression of parsedExpression">
